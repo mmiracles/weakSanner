@@ -1,0 +1,2 @@
+tomcat weak password: ip:129.204.234.135:8080,username:tomcat,password:tomcat
+tomcat weak password: ip:129.204.234.135:8080,username:manager,password:manager
