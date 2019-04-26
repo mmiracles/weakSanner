@@ -61,7 +61,7 @@ class TomcatScanner:
                         self.ip, self.port, username, password)
                     result += info
                     print(info)
-                time.sleep(0.1)
+                time.sleep(0.5)
         return result
 
 

@@ -1,3 +1,4 @@
+tomcat
 manager
 postgres
 Admin123
@@ -5,4 +6,3 @@ root
 mongo
 ubuntu
 123456
-tomcat
