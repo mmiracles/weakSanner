@@ -4,31 +4,44 @@ import time
 
 
 class FTPScanner:
-	def __init__(self, ip, port):
-		self.ip = ip
-		self.port = port
+    def __init__(self, ip, port):
+        self.ip = ip
+        self.port = port
 
-	def loginAnonymous(self, username, password, timeout=10):
-		try:
-			with FTP(self.ip) as ftp:
-				ftp.login()
-				return 'success'
-		except Exception as e:
-			if "invalid" in str(e) or "failed" in str(e) or 'incorrect' in str(e):
-				return 'fail'
-			else:
-				return 'timeout'
+    def loginAnonymous(self, username, password, timeout=10):
+        try:
+            with FTP(self.ip) as ftp:
+                ftp.login()
+                return 'success'
+        except Exception as e:
+            if "invalid" in str(e) or "failed" in str(e) or 'incorrect' in str(e):
+                return 'fail'
+            else:
+                return 'timeout'
 
-	def login(self, username, password):        # Parameters (hostname, dictionary file)
-		try:
-			with FTP(self.ip) as ftp:
-				ftp.login(username, password)
-				return 'success'
-		except Exception as e:
-			if str(e).find("invalid") > 0 or str(e).find("failed") > 0 or str(e).find("incorrect") > 0:
-				return 'fail'
-			else:
-				return 'timeout'
+    def login(self, username, password):        # Parameters (hostname, dictionary file)
+        try:
+            with FTP(self.ip) as ftp:
+                ftp.login(username, password)
+                return 'success'
+        except Exception as e:
+            if str(e).find("invalid") > 0 or str(e).find("failed") > 0 or str(e).find("incorrect") > 0:
+                return 'fail'
+            else:
+                return 'timeout'
+
+    def scanWeakPwsd(self, pwdLines):
+        result = ''
+        for username in pwdLines:
+            for password in pwdLines:
+                username = username.strip('\r').strip('\n')
+                password = password.strip('\r').strip('\n')
+                res = self.login(username, password)
+                if res == 'success':
+                    info = 'ftp weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
+                    result += info
+                    print(info)
+        return result
 
 if __name__ == '__main__':
 	pass

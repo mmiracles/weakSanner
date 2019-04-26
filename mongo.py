@@ -18,6 +18,19 @@ class MongoScanner:
             else:
                 return 'fail'
 
+    def scanWeakPwsd(self, pwdLines):
+        result = ''
+        for username in pwdLines:
+            for password in pwdLines:
+                username = username.strip('\r').strip('\n')
+                password = password.strip('\r').strip('\n')
+                res = self.connect(username, password)
+                if res == 'success':
+                    info = 'mongo weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
+                    result += info
+                    print(info)
+        return result
+
 if __name__ == '__main__':
     lines = open('pwd.txt').readlines()
     for username in lines:
