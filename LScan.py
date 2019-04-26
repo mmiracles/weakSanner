@@ -103,14 +103,14 @@ result = []
 try:
     with open('./pwdTest.txt') as pwdFile:
         pwdLines = pwdFile.readlines()
-        # threading.Thread(target=ftpConnect, args=(ip, pwdLines)).start()
-        # threading.Thread(target=telnetConnect, args=(ip, pwdLines)).start()
-        # threading.Thread(target=sshConnect, args=(ip, pwdLines)).start()
-        # threading.Thread(target=mysqlConnect, args=(ip, pwdLines)).start()
-        # threading.Thread(target=postgresConnect, args=(ip, pwdLines)).start()
-        # threading.Thread(target=mongoConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=ftpConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=telnetConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=sshConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=mysqlConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=postgresConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=mongoConnect, args=(ip, pwdLines)).start()
         threading.Thread(target=redisConnect, args=(ip, pwdLines)).start()
         threading.Thread(target=tomcatConnect, args=(ip, pwdLines)).start()
-        # threading.Thread(target=sqlServerConnect, args=(ip, pwdLines)).start()
+        threading.Thread(target=sqlServerConnect, args=(ip, pwdLines)).start()
 except Exception as e:
     print(e)
