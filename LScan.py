@@ -10,7 +10,7 @@ from tomcat import TomcatScanner
 
 import threading
 
-ip = '127.0.0.1'
+ip = '129.204.234.135'
 
 def ftpConnect(ip, pwdLines):
     try:
@@ -18,7 +18,6 @@ def ftpConnect(ip, pwdLines):
             ftpSanner = FTPScanner(ip, 22)
             ftpRes = ftpSanner.scanWeakPwsd(pwdLines)
             resultFile.write(ftpRes)
-            print(ftpRes)
     except Exception as e:
         print('ftpConnectError:', e)
 
@@ -103,14 +102,14 @@ result = []
 try:
     with open('./pwdTest.txt') as pwdFile:
         pwdLines = pwdFile.readlines()
-        threading.Thread(target=ftpConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=telnetConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=sshConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=mysqlConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=postgresConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=mongoConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=ftpConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=telnetConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=sshConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=mysqlConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=postgresConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=mongoConnect, args=(ip, pwdLines)).start()
         threading.Thread(target=redisConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=tomcatConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=tomcatConnect, args=(ip, pwdLines)).start()
         # threading.Thread(target=sqlServerConnect, args=(ip, pwdLines)).start()
 except Exception as e:
     print(e)
