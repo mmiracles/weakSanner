@@ -1,7 +1,7 @@
+ubuntu
 tomcat
 manager
 postgres
-ubuntu
 123456
 Admin123
 admin
