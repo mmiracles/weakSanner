@@ -10,10 +10,7 @@ from tomcat import TomcatScanner
 
 import threading
 
-ip = '129.204.234.135'
-username = 'admin'
-password = 'admin'
-
+ip = '127.0.0.1'
 
 def ftpConnect(ip, pwdLines):
     try:
