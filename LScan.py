@@ -111,6 +111,6 @@ try:
         threading.Thread(target=mongoConnect, args=(ip, pwdLines)).start()
         threading.Thread(target=redisConnect, args=(ip, pwdLines)).start()
         threading.Thread(target=tomcatConnect, args=(ip, pwdLines)).start()
-        threading.Thread(target=sqlServerConnect, args=(ip, pwdLines)).start()
+        # threading.Thread(target=sqlServerConnect, args=(ip, pwdLines)).start()
 except Exception as e:
     print(e)
