@@ -1,0 +1,9 @@
+ubuntu
+tomcat
+manager
+postgres
+123456
+Admin123
+admin
+root
+mongo

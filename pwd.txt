@@ -1,16 +1,15 @@
 postgres
+root
 ubuntu
 Administrator
 tomcat
 Root
-root
 me
 lxm
 sa
 Sa
 
 admin
-root
 manager
 test
 test123

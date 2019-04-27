@@ -4,43 +4,44 @@ import threading
 
 
 class TelnetScanner:
-	def __init__(self, ip, port):
-		self.ip = ip
-		self.port = port
+    def __init__(self, ip, port):
+        self.ip = ip
+        self.port = port
 
-	def connectTelnet(self,user, pwd):
-		try:
-			user = user.encode()
-			pwd = pwd.encode()
-			tn = telnetlib.Telnet(self.ip, timeout=20)
-			tn.set_debuglevel(0)
-			a = tn.expect([b"login", b"Login", b"name"], timeout=10)
-			# ipFile = open("ip.txt", "a")
-			# ipFile.write(ip+"\n")
-			tn.write(user+b"\r\n")
-			tn.expect([b"word"], timeout=20)
-			tn.write(pwd+b"\r\n")
-			tn.write(b"\r\n")
-			res = tn.expect([b'Failed', b'failed', b'invalid',
-							b'incorrect'], timeout=10)
-			if res[0] >= 0:
-				return 'fail'
-			else:
-				return 'success'
-			tn.close()
-		except Exception as e:
-			return 'timeout'
+    def connectTelnet(self, user, pwd):
+        try:
+            user = user.encode()
+            pwd = pwd.encode()
+            tn = telnetlib.Telnet(self.ip, timeout=20)
+            tn.set_debuglevel(0)
+            a = tn.expect([b"login", b"Login", b"name"], timeout=10)
+            tn.write(user+b"\r\n")
+            tn.expect([b"word"], timeout=20)
+            tn.write(pwd+b"\r\n")
+            tn.write(b"\r\n")
+            res = tn.expect([b'Failed', b'failed', b'invalid',
+                             b'incorrect'], timeout=10)
+            if res[0] >= 0:
+                return 'fail'
+            else:
+                return 'success'
+            tn.close()
+        except Exception as e:
+            return 'timeout'
 
-	def dfs(self, ip):
-		userLines = open(b"pwd.txt").read().split("\n")
-		for user in userLines:
-			pwdLines = open(b"pwd.txt").read().split("\n")
-			for pwd in pwdLines:
-				try:
-					connectTelnet(ip, user.encode(), pwd.encode())
-				except:
-					pass
-				time.sleep(0.02)
+    def scanWeakPwsd(self, pwdLines):
+        result = ''
+        for username in pwdLines:
+            for password in pwdLines:
+                username = username.strip('\r').strip('\n')
+                password = password.strip('\r').strip('\n')
+                res = self.connectTelnet(username, password)
+                if res == 'success':
+                    info = 'telnet weak password: ip:{}:{},username:{},password:{}\n'.format(
+                        self.ip, self.port, username, password)
+                    result += info
+                    print(info)
+        return result
 
 
 '''

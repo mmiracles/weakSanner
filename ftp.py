@@ -87,32 +87,51 @@ def main():
 
 
 class FTPScanner:
+<<<<<<< HEAD
 	def __init__(self, ip, port):
 		self.ip = ip
 		self.port = port
 >>>>>>> 4941ebe5c4c6d2e35509bed1a1c9e6d98e5dc519
+=======
+    def __init__(self, ip, port):
+        self.ip = ip
+        self.port = port
+>>>>>>> ac05195e922b4725c3b580ea8cd89f6346f78da5
 
-	def loginAnonymous(self, username, password, timeout=10):
-		try:
-			with FTP(self.ip) as ftp:
-				ftp.login()
-				return 'success'
-		except Exception as e:
-			if "invalid" in str(e) or "failed" in str(e) or 'incorrect' in str(e):
-				return 'fail'
-			else:
-				return 'timeout'
+    def loginAnonymous(self, username, password, timeout=10):
+        try:
+            with FTP(self.ip) as ftp:
+                ftp.login()
+                return 'success'
+        except Exception as e:
+            if "invalid" in str(e) or "failed" in str(e) or 'incorrect' in str(e):
+                return 'fail'
+            else:
+                return 'timeout'
 
-	def login(self, username, password):        # Parameters (hostname, dictionary file)
-		try:
-			with FTP(self.ip) as ftp:
-				ftp.login(username, password)
-				return 'success'
-		except Exception as e:
-			if str(e).find("invalid") > 0 or str(e).find("failed") > 0 or str(e).find("incorrect") > 0:
-				return 'fail'
-			else:
-				return 'timeout'
+    def login(self, username, password):        # Parameters (hostname, dictionary file)
+        try:
+            with FTP(self.ip) as ftp:
+                ftp.login(username, password)
+                return 'success'
+        except Exception as e:
+            if str(e).find("invalid") > 0 or str(e).find("failed") > 0 or str(e).find("incorrect") > 0:
+                return 'fail'
+            else:
+                return 'timeout'
+
+    def scanWeakPwsd(self, pwdLines):
+        result = ''
+        for username in pwdLines:
+            for password in pwdLines:
+                username = username.strip('\r').strip('\n')
+                password = password.strip('\r').strip('\n')
+                res = self.login(username, password)
+                if res == 'success':
+                    info = 'ftp weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
+                    result += info
+                    print(info)
+        return result
 
 if __name__ == '__main__':
 <<<<<<< HEAD
@@ -152,4 +171,7 @@ if __name__ == '__main__':
         # 		print('\n[+] Host: ' + hostName + 'Username: ' +
         # 				userName + ' Password: ' + password)
         # print('\n[*]-------------------Scan End!--------------------[*]')
+<<<<<<< HEAD
 >>>>>>> 4941ebe5c4c6d2e35509bed1a1c9e6d98e5dc519
+=======
+>>>>>>> ac05195e922b4725c3b580ea8cd89f6346f78da5
