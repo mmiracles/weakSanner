@@ -124,7 +124,9 @@ if __name__ == '__main__':
         print(parser.parse_args(['-h']))
         exit(0)
     if params.pwdFile:
-        pwdFile = params.pwdFile
+        PWD_FILE = str(params.pwdFile)
+    if params.resultFile:
+        RESULT_FILE = str(params.resultFile)
     services = []
     if params.services:
         services = str(params.services).split(',')
