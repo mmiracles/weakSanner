@@ -7,9 +7,10 @@ import redis
 
 
 class SqlServerScanner:
-    def __init__(self, ip, port=6379):
+    def __init__(self, ip, port=6379,debugLogLevel=1):
         self.ip = ip
         self.port = port
+        self.debugLogLevel = debugLogLevel
 
     def connect(self, username, password):
         try:
@@ -34,9 +35,11 @@ class SqlServerScanner:
                 res = self.connect(username, password)
                 print(res)
                 if res == 'success':
-                    info = 'sqlServer weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
-                    result += info
+                    info = 'sqlServer weak password for ip:{}:{},username:{},password:{}'.format(self.ip,self.port,username,password)
+                    result += info + '\n'
                     print(info)
+                elif self.debugLogLevel >= 2:
+                    print('sqlServer connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
         return result
 
 if __name__ == '__main__':

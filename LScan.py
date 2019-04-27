@@ -11,16 +11,17 @@ import argparse
 import time
 import threading
 
+HOST = '127.0.0.1'
 RESULT_FILE = './result.txt'
 PWD_FILE = './pwdTest.txt'
 ALL_SERVICES = ['ftp','telnet','ssh','mysql','redis','mongo','postgres','sqlserver','tomcat']
-
+DEBUG_LOG_LEVEL = 1 # 1->simple  3->detail
 
 def ftpConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            ftpSanner = FTPScanner(host, 22)
-            ftpRes = ftpSanner.scanWeakPwsd(pwdLines)
+            ftpScanner = FTPScanner(host, port=22,debugLogLevel=debugLogLevel)
+            ftpRes = ftpScanner.scanWeakPwsd(pwdLines)
             resultFile.write(ftpRes)
     except Exception as e:
         print('ftpConnectError:', e)
@@ -29,7 +30,7 @@ def ftpConnect(host, pwdLines):
 def telnetConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            telnetScanner = TelnetScanner(host, 23)
+            telnetScanner = TelnetScanner(host, 23,debugLogLevel=debugLogLevel)
             telnetRes = telnetScanner.scanWeakPwsd(pwdLines)
             resultFile.write(telnetRes)
     except Exception as e:
@@ -39,17 +40,17 @@ def telnetConnect(host, pwdLines):
 def sshConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            sshScanner = SSHScanner(host)
+            sshScanner = SSHScanner(host,debugLogLevel=debugLogLevel)
             sshRes = sshScanner.scanWeakPwsd(pwdLines)
             resultFile.write(sshRes)
     except Exception as e:
-        print('sshConnectError:', e)
+        print('sshConnectError:', e) 
 
 
-def mysqlConnect(host, pwdLines):
+def mysqlConnect(host, pwdLines,debugLogLevel):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            mysqlScanner = MysqlScanner(host)
+            mysqlScanner = MysqlScanner(host,debugLogLevel=debugLogLevel)
             mysqlRes = mysqlScanner.scanWeakPwsd(pwdLines)
             resultFile.write(mysqlRes)
     except Exception as e:
@@ -59,7 +60,7 @@ def mysqlConnect(host, pwdLines):
 def postgresConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            pgScanner = PostgresScanner(host)
+            pgScanner = PostgresScanner(host,debugLogLevel=debugLogLevel)
             pgRes = pgScanner.scanWeakPwsd(pwdLines)
             resultFile.write(pgRes)
     except Exception as e:
@@ -69,7 +70,7 @@ def postgresConnect(host, pwdLines):
 def mongoConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            mongoScanner = MongoScanner(host)
+            mongoScanner = MongoScanner(host,debugLogLevel=debugLogLevel)
             mongoRes = mongoScanner.scanWeakPwsd(pwdLines)
             resultFile.write(mongoRes)
     except Exception as e:
@@ -79,7 +80,7 @@ def mongoConnect(host, pwdLines):
 def redisConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            redisScanner = RedisScanner(host)
+            redisScanner = RedisScanner(host,debugLogLevel=debugLogLevel)
             redisRes = redisScanner.scanWeakPwsd(pwdLines)
             resultFile.write(redisRes)
     except Exception as e:
@@ -89,7 +90,7 @@ def redisConnect(host, pwdLines):
 def sqlServerConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            sqlScanner = SqlServerScanner(host)
+            sqlScanner = SqlServerScanner(host,debugLogLevel=debugLogLevel)
             sqlRes = sqlScanner.scanWeakPwsd(pwdLines)
             resultFile.write(sqlRes)
     except Exception as e:
@@ -99,7 +100,7 @@ def sqlServerConnect(host, pwdLines):
 def tomcatConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            tomcatScanner = TomcatScanner(host)
+            tomcatScanner = TomcatScanner(host,debugLogLevel=debugLogLevel)
             tomcatRes = tomcatScanner.scanWeakPwsd(pwdLines)
             resultFile.write(tomcatRes)
     except Exception as e:
@@ -112,6 +113,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', dest='pwdFile', help='Password dictionary file')
     parser.add_argument('-r', dest='resultFile', help='Result dictionary file')
     parser.add_argument('-s', dest='services', help='Services list with "," space,default all')
+    parser.add_argument('-d', dest='debugLogLevel', help='debug log level: 1->simple  2->normal  3->detail')
     params = None
     try:
         params = parser.parse_args()
@@ -119,27 +121,24 @@ if __name__ == '__main__':
         print(parser.parse_args(['-h']))
         exit(0)
 
-    host = str(params.hostname)
-    if host == 'None':
-        print(parser.parse_args(['-h']))
-        exit(0)
-    if params.pwdFile:
-        PWD_FILE = str(params.pwdFile)
-    if params.resultFile:
-        RESULT_FILE = str(params.resultFile)
+    host = params.hostname or HOST
+    pwdFileDictionary = params.pwdFile or PWD_FILE
+    resultFileDictionary = params.resultFile or RESULT_FILE
+    debugLogLevel = int(params.debugLogLevel or DEBUG_LOG_LEVEL)
     services = []
     if params.services:
         services = str(params.services).split(',')
     if services.__len__()==0:
         services = ALL_SERVICES
-    result = []
+
+    result = [] # weak password result list
     try:
-        with open(PWD_FILE) as pwdFile, open(RESULT_FILE, 'a') as resultFile:
+        with open(pwdFileDictionary) as pwdFile, open(resultFileDictionary, 'a') as resultFile:
             # write localtime in result file
             resultFile.write('--------- LXM Scan Result At '+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())+' ---------\n')
             pwdLines = pwdFile.readlines()
             if 'mysql' in services:
-                threading.Thread(target=mysqlConnect, args=(host, pwdLines)).start()
+                threading.Thread(target=mysqlConnect, args=(host, pwdLines,debugLogLevel)).start()
             if 'ftp' in services:
                 threading.Thread(target=ftpConnect, args=(host, pwdLines)).start()
             if 'telnet' in services:

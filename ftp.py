@@ -4,9 +4,10 @@ import time
 
 
 class FTPScanner:
-    def __init__(self, ip, port):
+    def __init__(self, ip, port=22,debugLogLevel=1):
         self.ip = ip
         self.port = port
+        self.debugLogLevel = debugLogLevel
 
     def loginAnonymous(self, username, password, timeout=10):
         try:
@@ -38,9 +39,11 @@ class FTPScanner:
                 password = password.strip('\r').strip('\n')
                 res = self.login(username, password)
                 if res == 'success':
-                    info = 'ftp weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
-                    result += info
+                    info = 'ftp weak password for ip:{}:{},username:{},password:{}'.format(self.ip,self.port,username,password)
+                    result += info + '\n'
                     print(info)
+                elif self.debugLogLevel >= 2:
+                    print('ftp connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
         return result
 
 if __name__ == '__main__':

@@ -12,9 +12,10 @@ LOGIN_TIMEOUT = 12
 
 
 class TomcatScanner:
-    def __init__(self, ip, port=8080):
+    def __init__(self, ip, port=8080,debugLogLevel=1):
         self.ip = ip
         self.port = port
+        self.debugLogLevel = debugLogLevel
         self.url = "http://{}:{}".format(ip, port)
 
     def login(self, username, password, timeout=LOGIN_TIMEOUT):
@@ -38,7 +39,6 @@ class TomcatScanner:
             error_i += 1
             if error_i >= 3:
                 return 'timeout'
-        print(username, password, self.url)
         if int(res_code) == 404:
             return 'timeout'
         elif int(res_code) == 401 or int(res_code) == 403:
@@ -57,10 +57,12 @@ class TomcatScanner:
                 password = password.strip('\r').strip('\n')
                 res = self.login(username, password)
                 if res == 'success':
-                    info = 'tomcat weak password: ip:{}:{},username:{},password:{}\n'.format(
+                    info = 'tomcat weak password for ip:{}:{},username:{},password:{}'.format(
                         self.ip, self.port, username, password)
-                    result += info
+                    result += info + '\n'
                     print(info)
+                elif self.debugLogLevel >= 2:
+                    print('tomcat connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
                 time.sleep(0.5)
         return result
 

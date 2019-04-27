@@ -2,9 +2,10 @@ import paramiko
 import threading
 
 class SSHScanner:
-    def __init__(self,ip,port=22):
+    def __init__(self,ip,port=22,debugLogLevel=1):
         self.ip = ip
         self.port = port
+        self.debugLogLevel = debugLogLevel
 
     def connectSSH(self,username,password):
         try:
@@ -29,9 +30,11 @@ class SSHScanner:
                 password = password.strip('\r').strip('\n')
                 res = self.connectSSH(username, password)
                 if res == 'success':
-                    info = 'ssh weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
+                    info = 'ssh weak password for ip:{}:{},username:{},password:{}'.format(self.ip,self.port,username,password)
                     result += info
                     print(info)
+                elif self.debugLogLevel >= 2:
+                    print('ssh connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
         return result
 
 if __name__ == '__main__':
