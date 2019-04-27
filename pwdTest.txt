@@ -7,3 +7,4 @@ Admin123
 admin
 root
 mongo
+pypmyadmin
