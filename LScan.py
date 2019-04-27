@@ -109,7 +109,7 @@ def tomcatConnect(host, pwdLines):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='LXM Scanner')
     parser.add_argument('-H', dest='hostname', help='The host name')
-    parser.add_argument('-f', dest='pwdFile', help='Password dictionary file')
+    parser.add_argument('-p', dest='pwdFile', help='Password dictionary file')
     parser.add_argument('-r', dest='resultFile', help='Result dictionary file')
     parser.add_argument('-s', dest='services', help='Services list with "," space,default all')
     params = None
