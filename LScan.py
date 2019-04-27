@@ -8,10 +8,12 @@ from pyredis import RedisScanner
 from sqlserver import SqlServerScanner
 from tomcat import TomcatScanner
 import argparse
+import time
 import threading
 
 RESULT_FILE = './result.txt'
 PWD_FILE = './pwdTest.txt'
+ALL_SERVICES = ['ftp','telnet','ssh','mysql','redis','mongo','postgres','sqlserver','tomcat']
 
 
 def ftpConnect(host, pwdLines):
@@ -109,6 +111,7 @@ if __name__ == '__main__':
     parser.add_argument('-H', dest='hostname', help='The host name')
     parser.add_argument('-f', dest='pwdFile', help='Password dictionary file')
     parser.add_argument('-r', dest='resultFile', help='Result dictionary file')
+    parser.add_argument('-s', dest='services', help='Services list with "," space,default all')
     params = None
     try:
         params = parser.parse_args()
@@ -117,25 +120,39 @@ if __name__ == '__main__':
         exit(0)
 
     host = str(params.hostname)
-    if params.pwdFile:
-        pwdFile = params.pwdFile
     if host == 'None':
         print(parser.parse_args(['-h']))
         exit(0)
-
+    if params.pwdFile:
+        pwdFile = params.pwdFile
+    services = []
+    if params.services:
+        services = str(params.services).split(',')
+    if services.__len__()==0:
+        services = ALL_SERVICES
     result = []
     try:
-        with open(PWD_FILE) as pwdFile:
+        with open(PWD_FILE) as pwdFile, open(RESULT_FILE, 'a') as resultFile:
+            # write localtime in result file
+            resultFile.write('--------- LXM Scan Result At '+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())+' ---------\n')
             pwdLines = pwdFile.readlines()
-            # threading.Thread(target=ftpConnect, args=(host, pwdLines)).start()
-            # threading.Thread(target=telnetConnect, args=(host, pwdLines)).start()
-            # threading.Thread(target=sshConnect, args=(host, pwdLines)).start()
-            threading.Thread(target=mysqlConnect, args=(host, pwdLines)).start()
-            # threading.Thread(target=postgresConnect, args=(host, pwdLines)).start()
-            # threading.Thread(target=mongoConnect, args=(host, pwdLines)).start()
-            threading.Thread(target=redisConnect,
-                             args=(host, pwdLines)).start()
-            # threading.Thread(target=tomcatConnect, args=(host, pwdLines)).start()
-            # threading.Thread(target=sqlServerConnect, args=(host, pwdLines)).start()
+            if 'mysql' in services:
+                threading.Thread(target=mysqlConnect, args=(host, pwdLines)).start()
+            if 'ftp' in services:
+                threading.Thread(target=ftpConnect, args=(host, pwdLines)).start()
+            if 'telnet' in services:
+                threading.Thread(target=telnetConnect, args=(host, pwdLines)).start()
+            if 'ssh' in services:
+                threading.Thread(target=sshConnect, args=(host, pwdLines)).start()
+            if 'postgres' in services:
+                threading.Thread(target=postgresConnect, args=(host, pwdLines)).start()
+            if 'mongo' in services:
+                threading.Thread(target=mongoConnect, args=(host, pwdLines)).start()
+            if 'redis' in services:
+                threading.Thread(target=redisConnect,args=(host, pwdLines)).start()
+            if 'tomcat' in services:
+                threading.Thread(target=tomcatConnect, args=(host, pwdLines)).start()
+            if 'sqlServer' in services or 'sqlserver' in services:
+                threading.Thread(target=sqlServerConnect, args=(host, pwdLines)).start()
     except Exception as e:
         print(e)
