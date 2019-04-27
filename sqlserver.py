@@ -33,7 +33,6 @@ class SqlServerScanner:
                 username = username.strip('\r').strip('\n')
                 password = password.strip('\r').strip('\n')
                 res = self.connect(username, password)
-                print(res)
                 if res == 'success':
                     info = 'sqlServer weak password for ip:{}:{},username:{},password:{}'.format(self.ip,self.port,username,password)
                     result += info + '\n'

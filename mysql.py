@@ -30,11 +30,9 @@ class MysqlScanner:
                 password = password.strip('\r').strip('\n')
                 res = self.connect(username, password)
                 if res == 'success':
-                    print('\033[1;32;40m')
                     info = 'mysql weak password for ip:{}:{},username:{},password:{}'.format(self.ip,self.port,username,password)
                     result += info + '\n'
                     print(info)
-                    print('\033[0m')
                 elif self.debugLogLevel >= 2:
                     print('mysql connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
         return result

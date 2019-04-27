@@ -23,7 +23,6 @@ class RedisScanner:
         for password in pwdLines:
             password = password.strip('\r').strip('\n')
             res = self.connect(password)
-            print(password,res)
             if res == 'success':
                 info = 'redis weak password for ip:{}:{},password:{}'.format(self.ip,self.port,password)
                 result += info + '\n'
