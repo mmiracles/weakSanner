@@ -4,9 +4,10 @@ import threading
 
 
 class TelnetScanner:
-    def __init__(self, ip, port):
+    def __init__(self, ip, port=23,debugLogLevel=1):
         self.ip = ip
         self.port = port
+        self.debugLogLevel = debugLogLevel
 
     def connectTelnet(self, user, pwd):
         try:
@@ -37,10 +38,12 @@ class TelnetScanner:
                 password = password.strip('\r').strip('\n')
                 res = self.connectTelnet(username, password)
                 if res == 'success':
-                    info = 'telnet weak password: ip:{}:{},username:{},password:{}\n'.format(
+                    info = 'telnet weak password for ip:{}:{},username:{},password:{}'.format(
                         self.ip, self.port, username, password)
-                    result += info
+                    result += info + '\n'
                     print(info)
+                elif self.debugLogLevel >= 2:
+                    print('telnet connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
         return result
 
 

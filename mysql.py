@@ -1,11 +1,13 @@
 import pymysql
 import threading
+import sys
 
 
 class MysqlScanner:
-    def __init__(self, ip, port=3306):
+    def __init__(self, ip, port=3306,debugLogLevel=1):
         self.ip = ip
         self.port = port
+        self.debugLogLevel = debugLogLevel
 
     def connect(self, username, password):
         try:
@@ -28,9 +30,11 @@ class MysqlScanner:
                 password = password.strip('\r').strip('\n')
                 res = self.connect(username, password)
                 if res == 'success':
-                    info = 'mysql weak password: ip:{}:{},username:{},password:{}\n'.format(self.ip,self.port,username,password)
-                    result += info
+                    info = 'mysql weak password for ip:{}:{},username:{},password:{}'.format(self.ip,self.port,username,password)
+                    result += info + '\n'
                     print(info)
+                elif self.debugLogLevel >= 2:
+                    print('mysql connect {} for ip:{}:{},username:{},password:{}'.format(res,self.ip,self.port,username,password))
         return result
 
 if __name__ == '__main__':
