@@ -2,9 +2,8 @@ from ftplib import FTP
 import argparse
 import time
 
-
 class FTPScanner:
-    def __init__(self, ip, port=22,debugLogLevel=1):
+    def __init__(self, ip, port=21,debugLogLevel=1):
         self.ip = ip
         self.port = port
         self.debugLogLevel = debugLogLevel
@@ -48,3 +47,36 @@ class FTPScanner:
 
 if __name__ == '__main__':
 	pass
+    # import xutils
+    # host, port = sys.argv[1], int(sys.argv[2])
+    # tester = TomcatBruteTester(open('pwd.txt').readlines())
+    # rs = tester.test((host,port))
+    # print(rs)
+
+        # parser = argparse.ArgumentParser(description='FTP Scanner')
+        # parser.add_argument('-H', dest='hostname', help='The host list with ","space')
+        # parser.add_argument('-f', dest='pwdFile', help='Password dictionary file')
+        # weakScanner = None
+        # try:
+        # 	weakScanner = parser.parse_args()
+        # except:
+        # 	print(parser.parse_args(['-h']))
+        # 	exit(0)
+
+        # hostNames = str(weakScanner.hostname).split(',')
+        # print(weakScanner)
+        # pwdFile = weakScanner.pwdFile
+        # if hostNames == ['None']:
+        # 	print(parser.parse_args(['-h']))
+        # 	exit(0)
+        # userName = None
+        # password = None
+        # if anonScan(hostName) == True:
+        # 	print('Host: ' + hostName + ' Can anonymously!')
+        # else:
+        # 	(userName, password) = vlcLogin(hostName, 'pwd.txt')
+        # 	print(userName, password)
+        # 	if password != None:
+        # 		print('\n[+] Host: ' + hostName + 'Username: ' +
+        # 				userName + ' Password: ' + password)
+        # print('\n[*]-------------------Scan End!--------------------[*]')

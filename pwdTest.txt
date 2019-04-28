@@ -1,10 +1,9 @@
 tomcat
+ubuntu
 manager
 postgres
 123456
 Admin123
 admin
 root
-ubuntu
 mongo
-pypmyadmin
