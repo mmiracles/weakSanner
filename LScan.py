@@ -113,7 +113,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', dest='pwdFile', help='Password dictionary file')
     parser.add_argument('-r', dest='resultFile', help='Result dictionary file')
     parser.add_argument('-s', dest='services', help='Services list with "," space,default all')
-    parser.add_argument('-d', dest='debugLogLevel', help='debug log level: 1->simple  2->normal  3->detail')
+    parser.add_argument('-d', dest='debugLogLevel', help='debug log level: 1->simple  2->detail')
     params = None
     try:
         params = parser.parse_args()
