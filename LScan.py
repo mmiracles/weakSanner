@@ -19,8 +19,8 @@ ALL_SERVICES = ['ftp','telnet','ssh','mysql','redis','mongo','postgres','sqlserv
 def ftpConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            ftpSanner = FTPScanner(host, 22)
-            ftpRes = ftpSanner.scanWeakPwsd(pwdLines)
+            ftpScanner = FTPScanner(host, 22)
+            ftpRes = ftpScanner.scanWeakPwsd(pwdLines)
             resultFile.write(ftpRes)
     except Exception as e:
         print('ftpConnectError:', e)
@@ -107,22 +107,6 @@ def tomcatConnect(host, pwdLines):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='LXM Scanner')
-    parser.add_argument('-H', dest='hostname', help='The host name')
-    parser.add_argument('-p', dest='pwdFile', help='Password dictionary file')
-    parser.add_argument('-r', dest='resultFile', help='Result dictionary file')
-    parser.add_argument('-s', dest='services', help='Services list with "," space,default all')
-    params = None
-    try:
-        params = parser.parse_args()
-    except:
-        print(parser.parse_args(['-h']))
-        exit(0)
-
-    host = str(params.hostname)
-    if host == 'None':
-        print(parser.parse_args(['-h']))
-        exit(0)
     if params.pwdFile:
         PWD_FILE = str(params.pwdFile)
     if params.resultFile:
