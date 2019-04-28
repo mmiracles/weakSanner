@@ -20,7 +20,7 @@ DEBUG_LOG_LEVEL = 1 # 1->simple  3->detail
 def ftpConnect(host, pwdLines):
     try:
         with open(RESULT_FILE, 'a') as resultFile:
-            ftpScanner = FTPScanner(host, port=22,debugLogLevel=debugLogLevel)
+            ftpScanner = FTPScanner(host, port=21,debugLogLevel=debugLogLevel)
             ftpRes = ftpScanner.scanWeakPwsd(pwdLines)
             resultFile.write(ftpRes)
     except Exception as e:
