@@ -19,7 +19,7 @@ DEBUG_LOG_LEVEL = 1 # 1->simple  3->detail
 
 def ftpConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             ftpScanner = FTPScanner(host, port=22,debugLogLevel=debugLogLevel)
             ftpRes = ftpScanner.scanWeakPwsd(pwdLines)
             resultFile.write(ftpRes)
@@ -29,7 +29,7 @@ def ftpConnect(host, pwdLines):
 
 def telnetConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             telnetScanner = TelnetScanner(host, 23,debugLogLevel=debugLogLevel)
             telnetRes = telnetScanner.scanWeakPwsd(pwdLines)
             resultFile.write(telnetRes)
@@ -39,7 +39,7 @@ def telnetConnect(host, pwdLines):
 
 def sshConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             sshScanner = SSHScanner(host,debugLogLevel=debugLogLevel)
             sshRes = sshScanner.scanWeakPwsd(pwdLines)
             resultFile.write(sshRes)
@@ -49,7 +49,7 @@ def sshConnect(host, pwdLines):
 
 def mysqlConnect(host, pwdLines,debugLogLevel):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             mysqlScanner = MysqlScanner(host,debugLogLevel=debugLogLevel)
             mysqlRes = mysqlScanner.scanWeakPwsd(pwdLines)
             resultFile.write(mysqlRes)
@@ -59,7 +59,7 @@ def mysqlConnect(host, pwdLines,debugLogLevel):
 
 def postgresConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             pgScanner = PostgresScanner(host,debugLogLevel=debugLogLevel)
             pgRes = pgScanner.scanWeakPwsd(pwdLines)
             resultFile.write(pgRes)
@@ -69,7 +69,7 @@ def postgresConnect(host, pwdLines):
 
 def mongoConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             mongoScanner = MongoScanner(host,debugLogLevel=debugLogLevel)
             mongoRes = mongoScanner.scanWeakPwsd(pwdLines)
             resultFile.write(mongoRes)
@@ -79,7 +79,8 @@ def mongoConnect(host, pwdLines):
 
 def redisConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
+            print(debugLogLevel)
             redisScanner = RedisScanner(host,debugLogLevel=debugLogLevel)
             redisRes = redisScanner.scanWeakPwsd(pwdLines)
             resultFile.write(redisRes)
@@ -89,7 +90,7 @@ def redisConnect(host, pwdLines):
 
 def sqlServerConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             sqlScanner = SqlServerScanner(host,debugLogLevel=debugLogLevel)
             sqlRes = sqlScanner.scanWeakPwsd(pwdLines)
             resultFile.write(sqlRes)
@@ -99,7 +100,7 @@ def sqlServerConnect(host, pwdLines):
 
 def tomcatConnect(host, pwdLines):
     try:
-        with open(RESULT_FILE, 'a') as resultFile:
+        with open(resultFileDictionary, 'a') as resultFile:
             tomcatScanner = TomcatScanner(host,debugLogLevel=debugLogLevel)
             tomcatRes = tomcatScanner.scanWeakPwsd(pwdLines)
             resultFile.write(tomcatRes)
