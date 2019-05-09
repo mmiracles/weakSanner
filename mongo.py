@@ -2,15 +2,15 @@ import pymongo
 import threading
 
 class MongoScanner:
-    def __init__(self,ip,port=27017,debugLogLevel=1):
+    def __init__(self,ip,port,debugLogLevel=1):
         self.ip = ip
-        self.port = port
+        self.port = port or 27017
         self.debugLogLevel = debugLogLevel
 
     def connect(self,username,password):
         try:
             mongo = pymongo.MongoClient(
-                'mongodb://{}:{}@{}/'.format(username, password, self.ip))
+                'mongodb://{}:{}@{}:{}/'.format(username, password, self.ip,self.port))
             dblist = mongo.list_database_names()
             return 'success'
         except Exception as e:

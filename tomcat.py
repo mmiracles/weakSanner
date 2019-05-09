@@ -12,9 +12,9 @@ LOGIN_TIMEOUT = 12
 
 
 class TomcatScanner:
-    def __init__(self, ip, port=8080,debugLogLevel=1):
+    def __init__(self, ip, port,debugLogLevel=1):
         self.ip = ip
-        self.port = port
+        self.port = port or 8080
         self.debugLogLevel = debugLogLevel
         self.url = "http://{}:{}".format(ip, port)
 

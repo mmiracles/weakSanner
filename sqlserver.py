@@ -7,9 +7,9 @@ import redis
 
 
 class SqlServerScanner:
-    def __init__(self, ip, port=6379,debugLogLevel=1):
+    def __init__(self, ip, port,debugLogLevel=1):
         self.ip = ip
-        self.port = port
+        self.port = port or 1433
         self.debugLogLevel = debugLogLevel
 
     def connect(self, username, password):

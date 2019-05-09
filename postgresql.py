@@ -2,9 +2,9 @@ import psycopg2
 import threading
 
 class PostgresScanner:
-    def __init__(self, ip, port=5432,debugLogLevel=1):
+    def __init__(self, ip, port,debugLogLevel=1):
         self.ip = ip
-        self.port = port
+        self.port = port or 5432
         self.debugLogLevel = debugLogLevel
 
     def connect(self, username,password):

@@ -3,9 +3,9 @@ import threading
 import time
 
 class SSHScanner:
-    def __init__(self,ip,port=22,debugLogLevel=1):
+    def __init__(self,ip,port ,debugLogLevel=1):
         self.ip = ip
-        self.port = port
+        self.port = port or 22
         self.debugLogLevel = debugLogLevel
 
     def connectSSH(self,username,password):
