@@ -4,16 +4,16 @@ import threading
 
 
 class TelnetScanner:
-    def __init__(self, ip, port=23,debugLogLevel=1):
+    def __init__(self, ip, port,debugLogLevel=1):
         self.ip = ip
-        self.port = port
+        self.port = port or 23
         self.debugLogLevel = debugLogLevel
 
     def connectTelnet(self, user, pwd):
         try:
             user = user.encode()
             pwd = pwd.encode()
-            tn = telnetlib.Telnet(self.ip, timeout=20)
+            tn = telnetlib.Telnet(self.ip, port=self.port,timeout=20)
             tn.set_debuglevel(0)
             a = tn.expect([b"login", b"Login", b"name"], timeout=10)
             tn.write(user+b"\r\n")
