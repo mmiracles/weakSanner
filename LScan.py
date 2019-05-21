@@ -172,7 +172,6 @@ if __name__ == '__main__':
             # write localtime in result file
             resultFile.write('--------- LXM Scan Result At '+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())+' ---------\n')
             pwdLines = pwdFile.readlines()
-            print(ports)
             if(ports.__len__()==0):
                 scanServices(services,host, pwdLines,debugLogLevel,None)
             else:
