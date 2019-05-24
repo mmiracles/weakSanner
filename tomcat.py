@@ -16,7 +16,7 @@ class TomcatScanner:
         self.ip = ip
         self.port = port or 8080
         self.debugLogLevel = debugLogLevel
-        self.url = "http://{}:{}".format(ip, port)
+        self.url = "http://{}:{}".format(ip, self.port)
 
     def login(self, username, password, timeout=LOGIN_TIMEOUT):
         error_i = 0
