@@ -135,12 +135,7 @@ if __name__ == '__main__':
     parser.add_argument('-port', dest='port', help='The port or ports with "/" space for one service,example 1/80(only used in one service)')
     parser.add_argument('-s', dest='services', help='Services list with "," space,default all')
     parser.add_argument('-d', dest='debugLogLevel', help='debug log level: 1->simple  2->detail')
-    params = None
-    try:
-        params = parser.parse_args()
-    except:
-        print(parser.parse_args(['-h']))
-        exit(0)
+    params = parser.parse_args()
 
     host = params.hostname or HOST
     pwdFileDictionary = params.pwdFile or PWD_FILE
