@@ -12,7 +12,7 @@ class MysqlScanner:
     def connect(self, username, password):
         try:
             conn = pymysql.connect(
-                self.ip, username, password, 'mysql', self.port)
+                self.ip, username, password, port=self.port)
             conn.close()
             return 'success'
         except Exception as e:
